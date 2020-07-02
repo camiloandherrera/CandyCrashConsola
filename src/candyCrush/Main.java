@@ -8,11 +8,12 @@ public class Main {
 		
 		// Atributos del Main
 		Usuario usuario = new Usuario(); // Para ingresar el nombre del usuario
-		char presionadoNombre; // Lee un caracter presionado al momento de ingresar un nombre de usuario
 		Mundo mundo = new Mundo(10, 10, 0, 50); // Contiene datos del tablero y la partida en general
+		
 		int validarInicial = 0; // Valida si se está generando un tablero inicial válido (sin jugadas ya listas)
 		Movimiento movimiento = new Movimiento(); // Contiene los movimientos y escaneos del tablero
-		Scanner ingreso = new Scanner(System.in); // Controla el input de usuario
+		
+		Scanner ingreso = new Scanner(System.in); // Controla el input de usuario (en ésta clase)
 		
 		// Llamados, etc.
 		System.out.println("#### CANDY CRUSH: PALOS ####");
