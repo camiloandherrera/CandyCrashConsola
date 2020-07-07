@@ -7,6 +7,11 @@ public class Movimiento {
 	// Atributos
 	// Para indicar si hay una jugada válida en las selecciones del usuario
 	private boolean movimientoValido;
+	 // Para indicar (y elegir) la dirección de una jugada, si esta se encuentra
+	// 1: Hacia arriba, 2: Hacia abajo, 3: Hacia la izquierda, 4: Hacia la derecha,
+	// 5: Ambos lados (D-I) desde el centro, 6: Ambos lados (Ar-Ab) desde el centro
+	// 7: Hacia arriba, moviendo un caramelo sin jugada*, 8: Hacia abajo*, 9: Hacia la izquierda*, 10, Hacia la derecha*
+	private int direccionJugada; 
 	// Para indicar el caramelo seleccionado
 	private int selX;
 	private int selY;
@@ -16,6 +21,10 @@ public class Movimiento {
 	// Setters
 	public void SetMovValido(boolean movimientoValido) { // Indica si hay un movimiento valido en las selecciones del usuario
 		this.movimientoValido = movimientoValido;
+	}
+	
+	public void SetDireccionValida(int direccionJugada) { // Indica la dirección de una jugada a verificar
+		this.direccionJugada = direccionJugada;
 	}
 	
 	public void SetSelX(int selX) { // Establece la coordenada X de la casilla a seleccionar
@@ -30,6 +39,11 @@ public class Movimiento {
 	public boolean GetMovValido() { // Consulta si hay un movimiento valido en las selecciones del usuario
 		return this.movimientoValido;
 	}
+	
+	public int GetDireccionValida() { // Obtiene la dirección de una jugada a verificar
+		return this.direccionJugada;
+	}
+	
 	public int GetSelX() { // Obtiene la coordenada X de la casilla a seleccionar
 		return this.selX;
 	}
@@ -297,6 +311,7 @@ public class Movimiento {
 	}
 	
 	public boolean Verificar(int posY, int posX, Casilla[][] tablero, Mundo mundo) {
+		this.movimientoValido = false;
 		boolean hayJugada = false;
 		// DE LA CASILLA A LA DERECHA
 		// Límite superior + útimas dos columnas
@@ -304,7 +319,9 @@ public class Movimiento {
 		if (posY != 0 && posX < mundo.GetX() - 2) {
 			if(tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY - 1][posX + 1].GetContenido().GetSimbolo() &&
 			tablero[posY - 1][posX + 1].GetContenido().GetSimbolo() == tablero[posY - 1][posX + 2].GetContenido().GetSimbolo()) { 
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 4;
 			}
 		}
 		
@@ -314,6 +331,8 @@ public class Movimiento {
 			if(tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 1][posX + 1].GetContenido().GetSimbolo() &&
 			tablero[posY + 1][posX + 1].GetContenido().GetSimbolo() == tablero[posY + 1][posX + 2].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 4;
 			}
 		}
 		
@@ -323,6 +342,8 @@ public class Movimiento {
 			if(tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 			tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY][posX + 1].GetContenido().GetSimbolo()) { 
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 4;
 			}
 		}
 		
@@ -332,6 +353,8 @@ public class Movimiento {
 			if(tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY][posX + 2].GetContenido().GetSimbolo() &&
 			tablero[posY][posX + 2].GetContenido().GetSimbolo() == tablero[posY][posX + 3].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 4;
 			}
 		}
 		
@@ -342,6 +365,8 @@ public class Movimiento {
 			if(tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY - 1][posX - 1].GetContenido().GetSimbolo() &&
 			tablero[posY - 1][posX - 1].GetContenido().GetSimbolo() == tablero[posY - 1][posX - 2].GetContenido().GetSimbolo()) {
 				hayJugada = true; 
+				this.movimientoValido = true;
+				this.direccionJugada = 3;
 			}
 		}
 		
@@ -351,6 +376,8 @@ public class Movimiento {
 			if(tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 1][posX - 1].GetContenido().GetSimbolo() &&
 			tablero[posY + 1][posX - 1].GetContenido().GetSimbolo() == tablero[posY + 1][posX - 2].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 3;
 			}
 		}
 		
@@ -360,6 +387,8 @@ public class Movimiento {
 			if(tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY][posX - 2].GetContenido().GetSimbolo() &&
 			tablero[posY][posX - 2].GetContenido().GetSimbolo() == tablero[posY][posX - 3].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 3;
 			}
 		}
 		
@@ -369,6 +398,8 @@ public class Movimiento {
 			if(tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 			tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY][posX - 1].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 3;
 			}
 		}
 		
@@ -379,12 +410,16 @@ public class Movimiento {
 		// Verifica si al bajar una casilla hay jugada, no aplica a los límites laterales
 				if(tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 1][posX + 1].GetContenido().GetSimbolo() &&
 				tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 1][posX - 1].GetContenido().GetSimbolo()) {
-					hayJugada = true; 
+					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 5;
 				}
 		// Verifica si al subir una casilla hay jugada, no aplica a los límites laterales
 				else if(tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY - 1][posX + 1].GetContenido().GetSimbolo() &&
 				tablero[posY - 1][posX + 1].GetContenido().GetSimbolo() == tablero[posY - 1][posX - 1].GetContenido().GetSimbolo()) {
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 5;
 				}
 			}
 		}
@@ -395,6 +430,8 @@ public class Movimiento {
 			if(tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 			tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY][posX + 1].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 5;
 			}
 		}
 		
@@ -404,6 +441,8 @@ public class Movimiento {
 			if(tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 			tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY][posX - 1].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 5;
 			}
 		}
 		
@@ -413,6 +452,8 @@ public class Movimiento {
 			if(tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY - 2][posX].GetContenido().GetSimbolo() &&
 			tablero[posY - 2][posX].GetContenido().GetSimbolo() == tablero[posY - 3][posX].GetContenido().GetSimbolo()) {
 				hayJugada = true; 
+				this.movimientoValido = true;
+				this.direccionJugada = 1;
 			}
 		}
 		if (posY > 2 && posX > 0 && posX < mundo.GetX() - 1) {
@@ -420,11 +461,15 @@ public class Movimiento {
 			if(tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY - 1][posX + 1].GetContenido().GetSimbolo() &&
 			tablero[posY - 1][posX + 1].GetContenido().GetSimbolo() == tablero[posY - 2][posX + 1].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 1;
 			}
 		// Verifica si al mover a la izquierda una casilla hay jugada
 			else if(tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY - 1][posX - 1].GetContenido().GetSimbolo() &&
 			tablero[posY - 1][posX - 1].GetContenido().GetSimbolo() == tablero[posY - 2][posX - 1].GetContenido().GetSimbolo()) {
 				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 1;
 			}
 		}			
 					
@@ -433,10 +478,10 @@ public class Movimiento {
 				if(tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 2][posX].GetContenido().GetSimbolo() &&
 				tablero[posY + 2][posX].GetContenido().GetSimbolo() == tablero[posY + 3][posX].GetContenido().GetSimbolo()) {
 					hayJugada = true; 
+					this.movimientoValido = true;
+					this.direccionJugada = 1;
 				}
-			}			
-		
-		
+			}				
 		
 		// DE LA CASILLA HASTA ABAJO
 		// Límite inferior y últimas tres filas
@@ -446,11 +491,15 @@ public class Movimiento {
 				if (tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 				tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY + 1][posX].GetContenido().GetSimbolo()) { 
 					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 2;
 				}
 		// Verifica si al bajar una casilla hay jugada, no aplica al límite inferior
 				else if (tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 2][posX].GetContenido().GetSimbolo() &&
 				tablero[posY + 2][posX].GetContenido().GetSimbolo() == tablero[posY - 3][posX].GetContenido().GetSimbolo()) { 
 					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 2;
 				}
 			}
 		}
@@ -460,11 +509,15 @@ public class Movimiento {
 			if(tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY + 1][posX + 1].GetContenido().GetSimbolo() &&
 			tablero[posY + 1][posX + 1].GetContenido().GetSimbolo() == tablero[posY + 2][posX + 1].GetContenido().GetSimbolo()) {
 					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 2;
 				}
 		// Verifica si al mover a la izquierda una casilla hay jugada
 			else if(tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY + 1][posX - 1].GetContenido().GetSimbolo() &&
 			tablero[posY + 1][posX - 1].GetContenido().GetSimbolo() == tablero[posY + 2][posX - 1].GetContenido().GetSimbolo()) { 
-					hayJugada = true; 
+					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 2;
 			}
 		}
 		
@@ -474,14 +527,18 @@ public class Movimiento {
 		if (posY > 1 && posY < mundo.GetX() - 1) {
 			if(tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 			tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY - 2][posX].GetContenido().GetSimbolo()) {
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 6;
 			}
 		}
 		// Verifica si al bajar una casilla hay jugada, no aplica al límite inferior
 		if (posY > 0 && posY < mundo.GetY() - 2) {
 			if(tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY][posX].GetContenido().GetSimbolo() &&
 			tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY + 2][posX].GetContenido().GetSimbolo()) {
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 6;
 			}
 		}
 		// Límites laterales
@@ -490,12 +547,16 @@ public class Movimiento {
 			if (posX > 0 && posX < mundo.GetX() - 1) {
 				if(tablero[posY + 1][posX - 1].GetContenido().GetSimbolo() == tablero[posY][posX - 1].GetContenido().GetSimbolo() &&
 				tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY - 1][posX - 1].GetContenido().GetSimbolo()) {
-					hayJugada = true; 
+					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 6;
 				}
 		// Verifica si mover a la derecha hay una jugada
 				if(tablero[posY + 1][posX + 1].GetContenido().GetSimbolo() == tablero[posY][posX + 1].GetContenido().GetSimbolo() &&
 				tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY + 2][posX + 1].GetContenido().GetSimbolo()) {
-					hayJugada = true; 
+					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 6;
 				}
 			}
 		}
@@ -503,9 +564,11 @@ public class Movimiento {
 		// OTROS
 		// Formar fila hacia abajo
 		if (posY > 1 && posY < mundo.GetY() - 3) {
-			if(tablero[posY][posX ].GetContenido().GetSimbolo() == tablero[posY + 1][posX].GetContenido().GetSimbolo() &&
+			if(tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY + 1][posX].GetContenido().GetSimbolo() &&
 			tablero[posY + 1][posX].GetContenido().GetSimbolo() == tablero[posY + 2][posX].GetContenido().GetSimbolo()) {
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 8;
 			}
 		}
 		
@@ -513,7 +576,9 @@ public class Movimiento {
 		if (posY > 2 && posY < mundo.GetY() - 2) {
 			if(tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY - 1][posX].GetContenido().GetSimbolo() &&
 			tablero[posY - 1][posX].GetContenido().GetSimbolo() == tablero[posY - 2][posX].GetContenido().GetSimbolo()) {
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 7;
 			}
 		}
 		
@@ -521,14 +586,162 @@ public class Movimiento {
 		if (posY > 2 && posY < mundo.GetY() - 3) {
 			if(tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY][posX + 1].GetContenido().GetSimbolo() &&
 			tablero[posY][posX + 1].GetContenido().GetSimbolo() == tablero[posY][posX + 2].GetContenido().GetSimbolo()) {
-				hayJugada = true; 
+				hayJugada = true;
+				this.movimientoValido = true;
+				this.direccionJugada = 10;
 			}
 		}
 		
+		// Formar fila hacia la izquierda
+			if (posY > 2 && posY < mundo.GetY() - 3) {
+				if(tablero[posY][posX].GetContenido().GetSimbolo() == tablero[posY][posX - 1].GetContenido().GetSimbolo() &&
+				tablero[posY][posX - 1].GetContenido().GetSimbolo() == tablero[posY][posX - 2].GetContenido().GetSimbolo()) {
+					hayJugada = true;
+					this.movimientoValido = true;
+					this.direccionJugada = 9;
+				}
+			}
+		
 		return hayJugada;
+	}	
+	
+	// Generación de jugadas y puntos
+	public int ContarCaramelosJugada(int posX, int posY, Mundo mundo, Casilla[][] tablero) { // Cuenta los caramelos de una jugada, si esta se encuentra
+		int direccionJugada = this.direccionJugada;
+		int conteoCaramelos = 0;
+		boolean hayJugada;
+		
+		switch(direccionJugada) {
+			case 1: // Hacia arriba
+				for (int i = posY; i <= 0; i--) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[i][posX].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 2: // Hacia abajo
+				for (int i = posY; i <= mundo.GetY(); i++) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[i][posX].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 3: // Hacia la izquierda
+				for (int i = posX; i <= 0; i--) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[posY][i].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 4: // Hacia la derecha
+				for (int i = posX; i <= mundo.GetX(); i++) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[posY][i].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 5: // Derecha e Izquierda, desde el Centro
+				for (int i = posX; i <= mundo.GetX(); i++) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[posY][i].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+				for (int j = posX - 1; j <= 0; j--) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[posY][j].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 6: // Arriba y Abajo, desde el Centro
+				for (int i = posY; i <= mundo.GetY(); i++) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[i][posX].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+				for (int j = posY - 1; j <= 0; j--) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[j][posX].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 7: // Hacia arriba, moviento un caramelo sin jugada
+				for (int i = posY - 1; i <= 0; i--) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[i][posX].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 8: // Hacia abajo, moviento un caramelo sin jugada
+				for (int i = posY + 1; i <= mundo.GetY(); i++) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[i][posX].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 9: // Hacia la izquierda, moviento un caramelo sin jugada
+				for (int i = posX - 1; i <= 0; i--) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[posY][i].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+			
+			case 10: // Hacia la derecha, moviento un caramelo sin jugada
+				for (int i = posX + 1; i <= mundo.GetX(); i++) {
+					hayJugada = this.movimientoValido;
+					if (hayJugada == true)
+					{
+						tablero[posY][i].SetUso(true);
+						conteoCaramelos++;
+					}
+				}
+			break;
+		}
+		
+		return conteoCaramelos;
 	}
 	
-	// Otros
 	public int PuntosJugada(int conteoCaramelos) { // Suma los puntos de una jugada, acorde al número de caramelos alineados
 		int puntosCaramelos;
 		switch(conteoCaramelos) {
